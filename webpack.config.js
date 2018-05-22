@@ -27,9 +27,16 @@ let conf = {
                         'style-loader',
                         'css-loader'
                     ]
+            },
+            {
+                test   : /\.php$/,
+                exclude: /php/,
             }
         ]
-    }
+    },
+    performance: {
+           hints: false
+        },
 };
 
 module.exports = conf;
