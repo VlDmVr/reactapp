@@ -9,3 +9,16 @@ h2{
     margin-top:10px;
     margin-left: 10px;
 }
+.popUp{
+    width: 350px;
+    height: 275px;
+    background: #ccc;
+    position: absolute;
+    left: 0;
+    top: 0 ;
+    z-index: 1000;
+    cursor: pointer;
+}
+#formWrapper{
+    padding-left: 30px;
+}
