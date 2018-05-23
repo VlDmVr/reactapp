@@ -7,9 +7,9 @@ class Main extends Component {
     render(){  
         return (
             <div>
-                <h2>Main</h2>
-                <div><span className="navLinks">Перейти в раздел <Link to="/about">About</Link></span></div>
-                <div><span className="navLinks">Перейти в раздел <Link to="/products">Products</Link></span></div>
+                <h2>Главная</h2>
+                <div><span className="navLinks">Перейти в раздел <Link to="/about">О проекте</Link></span></div>
+                <div><span className="navLinks">Перейти в раздел <Link to="/products">Товары</Link></span></div>
             </div>
         );
     }

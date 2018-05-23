@@ -8,8 +8,8 @@ class Links extends Component{
         return(
             <nav className="navLinks">
                 <Link to="/">Главная</Link>
-                <Link to="/about">About</Link>
-                <Link to="/products">Products</Link>
+                <Link to="/about">О проекте</Link>
+                <Link to="/products">Товары</Link>
             </nav>
         );
     }

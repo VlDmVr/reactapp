@@ -15,7 +15,7 @@ class Products extends Component{
     }
 
     componentWillMount(){ 
-       /* $.ajax({
+       $.ajax({
             type : 'POST',
             url : '/php/allSelectHandler.php',
             cache: false,
@@ -24,16 +24,14 @@ class Products extends Component{
 
                 this.setState({data: data});
             }
-        });*/  
+        }); 
     }
     
     render(){
-        const allData = [{ id:1,title:'aaa', description: 'bbb', price: 'ccc' }];
-        console.log(allData);
-
+        const allData = this.state.data;
         return(
             <div>
-                <h2>Products</h2>
+                <h2>Смартфоны</h2>
                 <Table striped bordered condensed hover className="productsTable">
                     <thead>
                         <tr>
@@ -45,12 +43,13 @@ class Products extends Component{
                     </thead>
                     <tbody>
                         {allData.map((value, index) => {
-                            <tr key={index} data-id={value.id}>
-                                <td>1</td>
-                                <td>{value.title}</td>
-                                <td>{value.description}</td>
-                                <td>{value.price}</td>
-                            </tr>
+                            return(
+                                <tr key={index} data-id={value.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{value.title}</td>
+                                    <td>{value.description}</td>
+                                    <td>{value.price}</td>
+                                </tr>)
                         })}
                     </tbody>
                 </Table>
