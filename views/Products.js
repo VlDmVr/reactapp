@@ -11,9 +11,28 @@ class Products extends Component{
         super(props);
 
         this.state = {
-            data: []
+            data: [
+                {
+                    id: 16,
+                    title: 'Samsung',
+                    description: 'Samsung Aaaaa Bbbbb Ccccc',
+                    price: '10 000'
+                },
+                {
+                    id: 17,
+                    title: 'iPhone',
+                    description: 'iPhone Aaaaa Bbbbb Ccccc',
+                    price: '20 000'
+                },
+                {
+                    id: 18,
+                    title: 'Asus',
+                    description: 'Asus Aaaaa Bbbbb Ccccc',
+                    price: '5 000'
+                },
+            ],
+            selectUserRow: ''
         };
-
     }
 
     /*componentWillMount(){ 
@@ -29,8 +48,18 @@ class Products extends Component{
         }); 
     }*/
 
+    selectUserRow(id){
+        if(id){
+            const row = this.state.data.filter( value => {
+                return value.id == id;
+            });
+            return row;
+        }
+    }
+
     selectItem(e){
-        console.log(e.target.parentNode.getAttribute('data-id'));
+        const selectId = e.target.parentNode.getAttribute('data-id');
+        this.setState({selectUserRow: this.selectUserRow(selectId)});
     }
     
     render(){
@@ -49,32 +78,7 @@ class Products extends Component{
                         </tr>
                     </thead>
                     <tbody onClick={this.selectItem.bind(this)}>
-                        {
-                         
-                            <tr data-id="16">
-                                <td>1</td>
-                                <td>Samsung</td>
-                                <td>Samsung Aaaaa Bbbbb Ccccc</td>
-                                <td>10 000</td>
-                            </tr>
-                        }
-                        {
-                            <tr data-id="17">
-                                <td>2</td>
-                                <td>iPhone</td>
-                                <td>iPhone Aaaaa Bbbbb Ccccc</td>
-                                <td>20 000</td>
-                            </tr>
-                        }
-                        {
-                            <tr data-id="18">
-                                <td>3</td>
-                                <td>Asus</td>
-                                <td>Asus Aaaaa Bbbbb Ccccc</td>
-                                <td>5 000</td>
-                            </tr>
-                        }
-                        {/*allData.map((value, index) => {
+                        {allData.map((value, index) => {
                             return(
                                 <tr key={index} data-id={value.id}>
                                     <td>{index + 1}</td>
@@ -82,7 +86,7 @@ class Products extends Component{
                                     <td>{value.description}</td>
                                     <td>{value.price}</td>
                                 </tr>)
-                        })*/}
+                        })}
                     </tbody>
                 </Table>
                 

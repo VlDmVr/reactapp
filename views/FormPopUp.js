@@ -9,27 +9,30 @@ class FormPopUp extends Component {
     }
     
     render(){
-        console.log(this.props); 
+       //console.log(this.state);
         return (
             <div>
                 <div id="formWrapper"> 
                     <h3>Редактирование товара</h3>
                     <Form horizontal>
+                            <Col sm={11}>
+                                <input type="text" name="id" value="" />
+                            </Col>
                         <FormGroup>
                             <Col sm={11}>
-                                <FormControl type="text" placeholder="Название" defaultValue="" />
+                                <FormControl type="text" name="title" placeholder="Название" defaultValue="" />
                             </Col>
                         </FormGroup>
 
                         <FormGroup controlId="formControlsTextarea">
                             <Col sm={11}>
-                                <FormControl componentClass="textarea" placeholder="Описание" defaultValue="" />
+                                <FormControl componentClass="textarea" name="description" placeholder="Описание" defaultValue="" />
                             </Col>
                         </FormGroup>
 
                         <FormGroup>
                             <Col sm={11}>
-                                <FormControl type="text" placeholder="Цена" defaultValue="" />
+                                <FormControl type="text" name="price" placeholder="Цена" defaultValue="" />
                             </Col>
                         </FormGroup>
 
