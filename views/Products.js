@@ -4,14 +4,61 @@ import PopUp from './PopUp';
 import './views.css';
 import $ from 'jquery';
 import { relative, isAbsolute } from 'path';
+import { connect } from 'react-redux';
+import selectProduct from '../reducers';
+
 
 class Products extends Component{
 
     constructor(props){
         super(props);
 
-        this.state = {
+        //selectProduct(this.srcData());
+    }
+
+    componentWillMount(){
+        const initialState = {
             data: [
+            {
+                id: 16,
+                title: 'Samsung',
+                description: 'Samsung Aaaaa Bbbbb Ccccc',
+                price: '10 000'
+            },
+            {
+                id: 17,
+                title: 'iPhone',
+                description: 'iPhone Aaaaa Bbbbb Ccccc',
+                price: '20 000'
+            },
+            {
+                id: 18,
+                title: 'Asus',
+                description: 'Asus Aaaaa Bbbbb Ccccc',
+                price: '5 000'
+            },
+          ],
+          selectUserRow: ''
+          };
+
+          this.props.selectProduct(initialState);
+        /*
+       $.ajax({
+            type : 'POST',
+            url : '/php/allSelectHandler.php',
+            cache: false,
+            dataType: 'json',
+            success : (data) => {
+
+                this.setState({data: data});
+            }
+        });
+        */ 
+    }
+
+    srcData() {
+     return {   
+                data: [
                 {
                     id: 16,
                     title: 'Samsung',
@@ -33,20 +80,7 @@ class Products extends Component{
             ],
             selectUserRow: ''
         };
-    }
-
-    /*componentWillMount(){ 
-       $.ajax({
-            type : 'POST',
-            url : '/php/allSelectHandler.php',
-            cache: false,
-            dataType: 'json',
-            success : (data) => {
-
-                this.setState({data: data});
-            }
-        }); 
-    }*/
+}
 
     selectUserRow(id){
         if(id){
@@ -63,7 +97,8 @@ class Products extends Component{
     }
     
     render(){
-        const allData = this.state.data;
+        //const allData = this.state.data;
+        console.log(this.props.selectProduct);
         return(
             <div>
                 <PopUp />
@@ -78,7 +113,7 @@ class Products extends Component{
                         </tr>
                     </thead>
                     <tbody onClick={this.selectItem.bind(this)}>
-                        {allData.map((value, index) => {
+                        {/*allData.map((value, index) => {
                             return(
                                 <tr key={index} data-id={value.id}>
                                     <td>{index + 1}</td>
@@ -86,7 +121,7 @@ class Products extends Component{
                                     <td>{value.description}</td>
                                     <td>{value.price}</td>
                                 </tr>)
-                        })}
+                        })*/}
                     </tbody>
                 </Table>
                 
@@ -95,4 +130,14 @@ class Products extends Component{
     }
 }
 
-export default Products;
+export default connect(
+    state => ({
+        selectProduct: state.selectProduct
+      }
+    ),
+    dispatch => ({
+      onAddTrack: (trackName) => {
+        dispatch({ type: 'ADD_TRACK', payload: trackName});
+      }
+    })
+  )(Products);
