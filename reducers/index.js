@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import selectProduct from './selectProduct';
+import selectId from './selectId';
+import preloadAllData from './preloadAllData';
 
 export default combineReducers({
-    selectProduct
+    selectId,
+    preloadAllData
 });

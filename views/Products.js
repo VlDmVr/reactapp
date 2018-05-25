@@ -5,7 +5,6 @@ import './views.css';
 import $ from 'jquery';
 import { relative, isAbsolute } from 'path';
 import { connect } from 'react-redux';
-import selectProduct from '../reducers';
 
 
 class Products extends Component{
@@ -13,35 +12,19 @@ class Products extends Component{
     constructor(props){
         super(props);
 
+        /*this.state = {
+            data: []
+        };*/
+
         //selectProduct(this.srcData());
+        
+        
     }
 
     componentWillMount(){
-        const initialState = {
-            data: [
-            {
-                id: 16,
-                title: 'Samsung',
-                description: 'Samsung Aaaaa Bbbbb Ccccc',
-                price: '10 000'
-            },
-            {
-                id: 17,
-                title: 'iPhone',
-                description: 'iPhone Aaaaa Bbbbb Ccccc',
-                price: '20 000'
-            },
-            {
-                id: 18,
-                title: 'Asus',
-                description: 'Asus Aaaaa Bbbbb Ccccc',
-                price: '5 000'
-            },
-          ],
-          selectUserRow: ''
-          };
-
-          this.props.selectProduct(initialState);
+        
+        this.props.loadAllData(this.srcData());
+        
         /*
        $.ajax({
             type : 'POST',
@@ -53,12 +36,11 @@ class Products extends Component{
                 this.setState({data: data});
             }
         });
-        */ 
+         */
     }
 
     srcData() {
-     return {   
-                data: [
+     return  [
                 {
                     id: 16,
                     title: 'Samsung',
@@ -77,14 +59,12 @@ class Products extends Component{
                     description: 'Asus Aaaaa Bbbbb Ccccc',
                     price: '5 000'
                 },
-            ],
-            selectUserRow: ''
-        };
-}
+            ];
+    }
 
     selectUserRow(id){
         if(id){
-            const row = this.state.data.filter( value => {
+            const row = this.props.preloadAllData.data.filter( value => {
                 return value.id == id;
             });
             return row;
@@ -93,12 +73,25 @@ class Products extends Component{
 
     selectItem(e){
         const selectId = e.target.parentNode.getAttribute('data-id');
-        this.setState({selectUserRow: this.selectUserRow(selectId)});
+        const resaltRow = this.selectUserRow(selectId);
+        this.props.selectRow(resaltRow);
+    }
+
+    loadContentFromDb(){
+        if(this.props.preloadAllData.data){
+            const allData = this.props.preloadAllData.data.map((value, index) => {
+                return( <tr key={index} data-id={value.id}>
+                            <td>{index + 1}</td>
+                            <td>{value.title}</td>
+                            <td>{value.description}</td>
+                            <td>{value.price}</td>
+                        </tr> );
+            });
+            return allData;
+        }
     }
     
     render(){
-        //const allData = this.state.data;
-        console.log(this.props.selectProduct);
         return(
             <div>
                 <PopUp />
@@ -113,15 +106,7 @@ class Products extends Component{
                         </tr>
                     </thead>
                     <tbody onClick={this.selectItem.bind(this)}>
-                        {/*allData.map((value, index) => {
-                            return(
-                                <tr key={index} data-id={value.id}>
-                                    <td>{index + 1}</td>
-                                    <td>{value.title}</td>
-                                    <td>{value.description}</td>
-                                    <td>{value.price}</td>
-                                </tr>)
-                        })*/}
+                        {this.loadContentFromDb()}
                     </tbody>
                 </Table>
                 
@@ -132,12 +117,16 @@ class Products extends Component{
 
 export default connect(
     state => ({
-        selectProduct: state.selectProduct
+        preloadAllData: state.preloadAllData,
+        selectId: state.selectId
       }
     ),
     dispatch => ({
-      onAddTrack: (trackName) => {
-        dispatch({ type: 'ADD_TRACK', payload: trackName});
-      }
+      loadAllData: (allDbData) => {
+        dispatch({ type: 'PRELOAD_ALL_DATA', payload: allDbData });
+      },
+      selectRow: (row) => {
+          dispatch({ type: 'SELECT_ID', payload: row });
+      }  
     })
   )(Products);

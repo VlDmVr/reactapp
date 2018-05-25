@@ -1,9 +1,9 @@
 export default function allProducts(state={}, action){
     switch(action.type){
-      case "SELECT_PRODUCT":
+      case "PRELOAD_ALL_DATA":
         return ({
           ...state,
-          action: payload
+          data: action.payload
         });
       default:
         return state;
