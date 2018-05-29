@@ -12,7 +12,7 @@
 			$pdo = new PDO($dsn, $username, $passwd);
 			return $pdo;
 		}
-		
+		//create data
 		public static function saveData($title, $description, $price, $pdo){
 			
 			$sql = "INSERT INTO goods ( title, description, price ) VALUES ( :title, :description, :price )";
@@ -20,11 +20,12 @@
 			
 			$result->bindParam(':title', $title, PDO::PARAM_STR);
 			$result->bindParam(':description', $description, PDO::PARAM_STR);
-			$result->bindParam(':price', $price, PDO::PARAM_INT);
+			$result->bindParam(':price', $price, PDO::PARAM_STR);
 			
 			return $result->execute();
 		}
 		
+		//read all data
 		public static function selectAllData($pdo){
 			
 			$sql = 'SELECT id, title, description, price FROM goods';
@@ -38,6 +39,17 @@
             
             return $goods;
 		}
-		
+		//update data
+		public static function updateData($id, $title, $description, $price, $pdo){
+            
+            $sql = 'UPDATE goods SET title = :title, description = :description, price = :price WHERE id = :id';
+            $result = $pdo->prepare($sql);
+            
+            $result->bindParam(':id', $id, PDO::PARAM_INT);
+            $result->bindParam(':title', $title, PDO::PARAM_STR);
+            $result->bindParam(':description', $description, PDO::PARAM_STR);
+            $result->bindParam(':price', $price, PDO::PARAM_STR);
+            return $result->execute();
+        }	
 	}
 ?>

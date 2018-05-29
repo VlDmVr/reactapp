@@ -36,7 +36,9 @@ class PopUp extends Component{
     
     render(){
         return(
-            <div id="popUp" className="popUp" style={{ left: this.state.leftPopUpCoordinates, top: this.state.topPopUpCoordinates }} draggable onDragEnd={this.userDragPopUp.bind(this)}>
+            <div id="popUp" className="popUp"
+            style={{ left: this.state.leftPopUpCoordinates, top: this.state.topPopUpCoordinates }} 
+            draggable onDragEnd={this.userDragPopUp.bind(this)}>
                 <FormPopUp />
             </div>
         );

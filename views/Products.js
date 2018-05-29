@@ -11,21 +11,10 @@ class Products extends Component{
 
     constructor(props){
         super(props);
-
-        /*this.state = {
-            data: []
-        };*/
-
-        //selectProduct(this.srcData());
-        
-        this.props.loadAllData(this.srcData());
-        this.props.cAllData(this.srcData());
     }
 
     componentWillMount(){
-        
-      
-        /*
+
        $.ajax({
             type : 'POST',
             url : '/php/allSelectHandler.php',
@@ -33,35 +22,22 @@ class Products extends Component{
             dataType: 'json',
             success : (data) => {
 
-                this.setState({data: data});
+                //клонирование массива объектов dataCopy для восстановления данных, при нажатии кнопки "Отменить"
+               const copyClone =  data.map( (val, ind) => {
+                    var intersect = {};
+                    for(var key in val){
+                        intersect[key] = val[key];
+                    }
+                    return intersect;
+                });
+
+                this.props.loadAllData(data);
+                this.props.cAllData(copyClone);
             }
         });
-         */
+         
     }
-
-    srcData() {
-     return  [
-                {
-                    id: 16,
-                    title: 'Samsung',
-                    description: 'Samsung Aaaaa Bbbbb Ccccc',
-                    price: '10 000'
-                },
-                {
-                    id: 17,
-                    title: 'iPhone',
-                    description: 'iPhone Aaaaa Bbbbb Ccccc',
-                    price: '20 000'
-                },
-                {
-                    id: 18,
-                    title: 'Asus',
-                    description: 'Asus Aaaaa Bbbbb Ccccc',
-                    price: '5 000'
-                },
-            ];
-    }
-
+    //выбрать редактируемую строку, после клика по строке таблицы
     selectUserRow(id){
         if(id){
             const row = this.props.preloadAllData.data.filter( value => {
@@ -76,6 +52,7 @@ class Products extends Component{
         if(this.props.selectId.row){
             return;
         }
+        document.getElementById('popUp').style.display = "block";
         const selectId = e.target.parentNode.getAttribute('data-id');
         const resaltRow = this.selectUserRow(selectId);
         this.props.selectRow(resaltRow);

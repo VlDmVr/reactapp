@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Form, FormGroup, Col, Button, FormControl } from 'react-bootstrap';
+import $ from 'jquery';
 import './views.css';
 import { connect } from 'react-redux';
 
@@ -31,11 +32,12 @@ class FormPopUp extends Component {
                 break;
             }
         }
-        
+       
         this.props.replaceAllData(allData);
     }
     //изменение состояния таблицы при нажатии кнопок "Отменить" и "Отправить"
     clickForm(e){
+        //--------------------------------Отменить----------------------------
         if(e.target.getAttribute('id') == 'cancelForm'){
             this.props.setData2Row(null);
 
@@ -47,8 +49,40 @@ class FormPopUp extends Component {
                 }
                 return intersect;
             });
-            
+
             this.props.replaceAllData(copyClone);
+            document.getElementById('popUp').style.display = "none";
+        }
+        //-------------------------------Отправить----------------------------
+        if(e.target.getAttribute('id') == 'sendForm'){
+
+            const id = this.props.selectRow.row[0].id;
+            const title = this.props.selectRow.row[0].title;
+            const description = this.props.selectRow.row[0].description;
+            const price = this.props.selectRow.row[0].price;
+
+            $.ajax({
+                type : 'POST',
+                url : '/php/updateGoodsHandler.php',
+                data: { 'id': id, 'title': title, 'description': description, 'price': price },
+                cache: false,
+                dataType: 'json',
+                success : (data) => {
+    
+                    console.log(data);
+                    //клонирование массива объектов dataCopy для восстановления данных, при нажатии кнопки "Отменить"
+                   /*const copyClone =  data.map( (val, ind) => {
+                        var intersect = {};
+                        for(var key in val){
+                            intersect[key] = val[key];
+                        }
+                        return intersect;
+                    });
+    
+                    this.props.loadAllData(data);
+                    this.props.cAllData(copyClone);*/
+                }
+            });
         }
     }
 
@@ -94,9 +128,9 @@ class FormPopUp extends Component {
             <div>
                 <div id="formWrapper"> 
                     <h3>Редактирование товара</h3>
-                        {this.getForm2PopUp()} 
-                    </div>
+                    {this.getForm2PopUp()} 
                 </div>
+            </div>
         );
     }
 }
