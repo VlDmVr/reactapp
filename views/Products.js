@@ -18,13 +18,13 @@ class Products extends Component{
 
         //selectProduct(this.srcData());
         
-        
+        this.props.loadAllData(this.srcData());
+        this.props.cAllData(this.srcData());
     }
 
     componentWillMount(){
         
-        this.props.loadAllData(this.srcData());
-        
+      
         /*
        $.ajax({
             type : 'POST',
@@ -70,8 +70,12 @@ class Products extends Component{
             return row;
         }
     }
-
+    //выбор строки в таблице для редактирования
     selectItem(e){
+        //если уже существует выбранная строка, то return
+        if(this.props.selectId.row){
+            return;
+        }
         const selectId = e.target.parentNode.getAttribute('data-id');
         const resaltRow = this.selectUserRow(selectId);
         this.props.selectRow(resaltRow);
@@ -118,12 +122,16 @@ class Products extends Component{
 export default connect(
     state => ({
         preloadAllData: state.preloadAllData,
-        selectId: state.selectId
+        selectId: state.selectId,
+        copyData: state.copyAllData
       }
     ),
     dispatch => ({
       loadAllData: (allDbData) => {
-        dispatch({ type: 'PRELOAD_ALL_DATA', payload: allDbData });
+        dispatch({ type: 'PRELOAD_ALL_DATA', payload: allDbData});
+      },
+      cAllData: (data) => {
+          dispatch( {type: "COPY_ALL_DATA", payload: data} );
       },
       selectRow: (row) => {
           dispatch({ type: 'SELECT_ID', payload: row });
