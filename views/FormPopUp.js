@@ -39,19 +39,16 @@ class FormPopUp extends Component {
     clickForm(e){
         //--------------------------------Отменить----------------------------
         if(e.target.getAttribute('id') == 'cancelForm'){
+            //обнуляем всю выбранную строку товара в хранилище
             this.props.setData2Row(null);
 
             //клонирование массива объектов dataCopy для восстановления данных, при нажатии кнопки "Отменить"
-            const copyClone =  this.props.copyAllData.dataCopy.map( (val, ind) => {
-                var intersect = {};
-                for(var key in val){
-                    intersect[key] = val[key];
-                }
-                return intersect;
-            });
+            const copyClone = this.cloneData(this.props.copyAllData.dataCopy);
 
             this.props.replaceAllData(copyClone);
             document.getElementById('popUp').style.display = "none";
+            //разблокировка кнопки "Создать товар"
+            document.getElementById('createGood').children[0].removeAttribute('disabled');
         }
         //-------------------------------Отправить----------------------------
         if(e.target.getAttribute('id') == 'sendForm'){
@@ -61,6 +58,13 @@ class FormPopUp extends Component {
             const description = this.props.selectRow.row[0].description;
             const price = this.props.selectRow.row[0].price;
 
+            //закрыть диалоговое окно редактирования товара
+            document.getElementById('popUp').style.display = "none";
+            //разблокировка кнопки "Создать товар"
+            document.getElementById('createGood').children[0].removeAttribute('disabled');
+            //обнуляем всю выбранную строку товара в хранилище
+            this.props.setData2Row(null);
+
             $.ajax({
                 type : 'POST',
                 url : '/php/updateGoodsHandler.php',
@@ -69,21 +73,38 @@ class FormPopUp extends Component {
                 dataType: 'json',
                 success : (data) => {
     
-                    console.log(data);
-                    //клонирование массива объектов dataCopy для восстановления данных, при нажатии кнопки "Отменить"
-                   /*const copyClone =  data.map( (val, ind) => {
-                        var intersect = {};
-                        for(var key in val){
-                            intersect[key] = val[key];
-                        }
-                        return intersect;
-                    });
-    
-                    this.props.loadAllData(data);
-                    this.props.cAllData(copyClone);*/
+                    if(data){
+                        $.ajax({
+                            type : 'POST',
+                            url : '/php/allSelectHandler.php',
+                            cache: false,
+                            dataType: 'json',
+                            success : (dataUpd) => {
+                
+                                //клонирование массива объектов после загрузки с сервера
+                                const copyClone =  this.cloneData(dataUpd);
+                
+                                this.props.replaceAllData(dataUpd);
+                                this.props.setCopyAllData(copyClone);
+                            }
+                        });
+                    }
                 }
             });
         }
+    }
+
+    //метод клонирования данных для копии основных данных и использовании для восстановления исходных данных(например, при нажатии кнопки отмена в форме редактирования)
+    cloneData(arrData){
+        const copyClone =  arrData.map( (val, ind) => {
+            var intersect = {};
+            for(var key in val){
+                intersect[key] = val[key];
+            }
+            return intersect;
+        });
+
+        return copyClone;
     }
 
     getForm2PopUp(){

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'react-bootstrap';
 import PopUp from './PopUp';
+import CreateGood from './CreateGood';
 import './views.css';
 import $ from 'jquery';
 import { relative, isAbsolute } from 'path';
@@ -53,6 +54,7 @@ class Products extends Component{
             return;
         }
         document.getElementById('popUp').style.display = "block";
+        document.getElementById('createGood').children[0].setAttribute('disabled', 'disabled');
         const selectId = e.target.parentNode.getAttribute('data-id');
         const resaltRow = this.selectUserRow(selectId);
         this.props.selectRow(resaltRow);
@@ -75,6 +77,7 @@ class Products extends Component{
     render(){
         return(
             <div>
+                <CreateGood />
                 <PopUp />
                 <h2>Смартфоны</h2>
                 <Table striped bordered condensed hover className="productsTable">

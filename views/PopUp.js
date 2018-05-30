@@ -19,20 +19,6 @@ class PopUp extends Component{
                     topPopUpCoordinates: e.pageY
                         });
     }
-
-    componentDidMount(){
-        const computedStyle = getComputedStyle(document.getElementById('popUp'));
-        const middlePopUpWidth = parseInt(computedStyle.width)/2;
-        const middlePopUpHeight = parseInt(computedStyle.height)/2;
-        const widthPopUp = (document.documentElement.clientWidth/2)-middlePopUpWidth;
-        const heightPopUp = (document.documentElement.clientHeight/2)-middlePopUpHeight;
-       
-        this.setState({
-            leftPopUpCoordinates: widthPopUp,
-            topPopUpCoordinates: heightPopUp
-        });
-      
-    }
     
     render(){
         return(

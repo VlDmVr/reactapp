@@ -10,8 +10,6 @@ h2{
     margin-left: 10px;
 }
 .popUp{
-    /*width: 350px;*/
-    /*height: 275px;*/
     background: #ccc;
     position: absolute;
     left: 0;
@@ -22,4 +20,8 @@ h2{
 }
 #formWrapper{
     padding: 10px 20px 20px 40px;
+}
+#createGood{
+    margin-top:10px;
+    margin-left: 10px;
 }
