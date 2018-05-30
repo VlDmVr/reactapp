@@ -8,8 +8,8 @@ class PopUp extends Component{
         super(props);
 
         this.state = {
-            leftPopUpCoordinates: '',
-            topPopUpCoordinates: ''
+            leftPopUpCoordinates: 200,
+            topPopUpCoordinates: 200
         };
     }
 
@@ -39,7 +39,9 @@ class PopUp extends Component{
             <div id="popUp" className="popUp"
             style={{ left: this.state.leftPopUpCoordinates, top: this.state.topPopUpCoordinates }} 
             draggable onDragEnd={this.userDragPopUp.bind(this)}>
-                <FormPopUp />
+                <div>
+                    <FormPopUp />
+                </div>
             </div>
         );
     }

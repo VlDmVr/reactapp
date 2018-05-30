@@ -90,7 +90,7 @@ class FormPopUp extends Component {
         const selectRow = this.props.selectRow.row;
         if(selectRow){
             return(
-                <Form horizontal onChange={this.onChangeItem.bind(this)} >
+                <Form horizontal onChange={this.onChangeItem.bind(this)}>
                     <Col sm={11} disabled="">
                         <input type="text" name="id" defaultValue={selectRow[0].id} autoComplete="off" hidden disabled/>
                     </Col>
@@ -102,7 +102,7 @@ class FormPopUp extends Component {
 
                     <FormGroup controlId="formControlsTextarea">
                         <Col sm={11}>
-                            <FormControl componentClass="textarea" name="description" placeholder="Описание" defaultValue={selectRow[0].description} autoComplete="off" />
+                            <FormControl componentClass="textarea" name="description" placeholder="Описание" defaultValue={selectRow[0].description} autoComplete="off"  style={{ maxWidth: '280px' }}/>
                         </Col>
                     </FormGroup>
 
@@ -114,7 +114,7 @@ class FormPopUp extends Component {
 
                     <FormGroup onClick={this.clickForm.bind(this)} >
                         <Col smOffset={2} sm={11} >
-                            <Button id="sendForm" style={{ marginLeft: -15 }} >Отправить</Button>
+                            <Button id="sendForm" style={{ marginLeft: -25 }} >Отправить</Button>
                             <Button id="cancelForm" style={{ marginLeft: 15 }} >Отменить</Button>
                         </Col>
                     </FormGroup>
@@ -128,6 +128,7 @@ class FormPopUp extends Component {
             <div>
                 <div id="formWrapper"> 
                     <h3>Редактирование товара</h3>
+                    <p>Можно перемещать форму редактирования</p>
                     {this.getForm2PopUp()} 
                 </div>
             </div>
