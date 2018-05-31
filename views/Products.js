@@ -14,9 +14,9 @@ class Products extends Component{
         super(props);
     }
 
-    componentWillMount(){
+    componentDidMount(){
 
-       $.ajax({
+        $.ajax({
             type : 'POST',
             url : '/php/allSelectHandler.php',
             cache: false,
@@ -35,8 +35,7 @@ class Products extends Component{
                 this.props.loadAllData(data);
                 this.props.cAllData(copyClone);
             }
-        });
-         
+        }); 
     }
     //выбрать редактируемую строку, после клика по строке таблицы
     selectUserRow(id){
@@ -51,6 +50,10 @@ class Products extends Component{
     selectItem(e){
         //если уже существует выбранная строка, то return
         if(this.props.selectId.row){
+            return;
+        }
+        //если форма уже открыта, то return
+        if(document.getElementById('popUp').style.display == "block"){
             return;
         }
         document.getElementById('popUp').style.display = "block";

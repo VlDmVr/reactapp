@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import FormPopUp from './FormPopUp';
+import FormPopUpRedact from './FormPopUpRedact';
+import FormPopUpCreate from './FormPopUpCreate';
 import './views.css';
+import { connect } from 'react-redux';
 
 class PopUp extends Component{
 
@@ -17,7 +19,24 @@ class PopUp extends Component{
         this.setState({
                     leftPopUpCoordinates: e.pageX,
                     topPopUpCoordinates: e.pageY
-                        });
+                });
+    }
+
+    togglePopUpForm(){
+        if(this.props.selectId.row){
+            return(
+                <div>
+                    <FormPopUpRedact />
+                </div>
+            );
+        }
+        else{
+            return(
+                <div>
+                    <FormPopUpCreate />
+                </div>
+            );
+        }
     }
     
     render(){
@@ -25,12 +44,28 @@ class PopUp extends Component{
             <div id="popUp" className="popUp"
             style={{ left: this.state.leftPopUpCoordinates, top: this.state.topPopUpCoordinates }} 
             draggable onDragEnd={this.userDragPopUp.bind(this)}>
-                <div>
-                    <FormPopUp />
-                </div>
+                {this.togglePopUpForm()}
             </div>
         );
     }
 }
 
-export default PopUp;
+export default connect(
+    state => ({
+        preloadAllData: state.preloadAllData,
+        selectId: state.selectId,
+        copyData: state.copyAllData
+      }
+    ),
+    dispatch => ({
+      loadAllData: (allDbData) => {
+        dispatch({ type: 'PRELOAD_ALL_DATA', payload: allDbData});
+      },
+      cAllData: (data) => {
+          dispatch( {type: "COPY_ALL_DATA", payload: data} );
+      },
+      selectRow: (row) => {
+          dispatch({ type: 'SELECT_ID', payload: row });
+      }  
+    })
+  )(PopUp);

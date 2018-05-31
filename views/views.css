@@ -25,3 +25,12 @@ h2{
     margin-top:10px;
     margin-left: 10px;
 }
+.errorFormField span{
+    color: red;
+    font-size: 12px;
+    margin-left: 30px;
+}
+.errorFormField{
+    display: none;
+    margin-top: 5px;
+}

@@ -4,7 +4,7 @@ import $ from 'jquery';
 import './views.css';
 import { connect } from 'react-redux';
 
-class FormPopUp extends Component {
+class FormPopUpRedact extends Component {
 
     constructor(props){
         super(props);
@@ -17,18 +17,16 @@ class FormPopUp extends Component {
         //изменение редактируемых данных в выбранной строке
         const newRow = this.props.selectRow.row.map( (val, ind) => {
             
-            if(val[editAttrName]){
-                val[editAttrName] = editValue;
-            }
-
-            return this.props.selectRow.row[0]
+            val[editAttrName] = editValue;
+            
+            return val;
         });
         
         //изменение редактируемых данных во всей таблице
         const allData = this.props.preloadAllData.data;
         for(let i=0; i<allData.length; i++){
             if(allData[i].id == newRow[0].id){
-                allData[i].id = newRow[0].id;
+                allData[i] = newRow[0];
                 break;
             }
         }
@@ -109,6 +107,7 @@ class FormPopUp extends Component {
 
     getForm2PopUp(){
         const selectRow = this.props.selectRow.row;
+        
         if(selectRow){
             return(
                 <Form horizontal onChange={this.onChangeItem.bind(this)}>
@@ -177,4 +176,4 @@ export default connect(
         }
     })
 )
-(FormPopUp);
+(FormPopUpRedact);

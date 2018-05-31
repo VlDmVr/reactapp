@@ -7,12 +7,12 @@ class CreateGood extends Component{
         super(props);
     }
 
-    createGood(){
+    createGood(e){
         document.getElementById('popUp').style.display = "block";
+        e.target.setAttribute('disabled', 'disabled');
     }
 
     render(){
-        console.log(document.getElementById('createGood'));
         return(
             <div id="createGood">
                 <Button onClick={this.createGood.bind(this)}>Создать товар</Button>
