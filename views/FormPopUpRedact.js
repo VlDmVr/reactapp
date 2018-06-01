@@ -9,29 +9,15 @@ class FormPopUpRedact extends Component {
     constructor(props){
         super(props);
     }
-    //изменение данных в таблице
+    //изменение данных в таблице через связь(ссылки) двух объектов 
+    //в хранилище(this.props.selectRow - объекта выбранной строки и this.props.preloadAllData - объекта всех записей товаров на странице)
     onChangeItem(e){
         const editAttrName = e.target.getAttribute('name');
         const editValue = e.target.value;
 
-        //изменение редактируемых данных в выбранной строке
-        const newRow = this.props.selectRow.row.map( (val, ind) => {
-            
-            val[editAttrName] = editValue;
-            
-            return val;
-        });
-        
-        //изменение редактируемых данных во всей таблице
-        const allData = this.props.preloadAllData.data;
-        for(let i=0; i<allData.length; i++){
-            if(allData[i].id == newRow[0].id){
-                allData[i] = newRow[0];
-                break;
-            }
-        }
+        this.props.selectRow.row[0][editAttrName] = editValue;
        
-        this.props.replaceAllData(allData);
+        this.props.replaceAllData(this.props.preloadAllData.data);
     }
     //изменение состояния таблицы при нажатии кнопок "Отменить" и "Отправить"
     clickForm(e){

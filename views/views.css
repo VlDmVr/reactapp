@@ -10,13 +10,15 @@ h2{
     margin-left: 10px;
 }
 .popUp{
-    background: #ccc;
+    background: #ddd;
+    border: 3px solid #ccc;
     position: absolute;
     left: 0;
     top: 0 ;
     z-index: 1000;
     cursor: pointer;
     display: none;
+    border-radius: 5px;
 }
 #formWrapper{
     padding: 10px 20px 20px 40px;

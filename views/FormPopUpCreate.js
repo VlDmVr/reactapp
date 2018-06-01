@@ -120,11 +120,13 @@ class FormPopUpCreate extends Component{
             }
         }
     }
-
+    //валидация обязательных полей в форме создания товара
     validateRequiredFild(e){
-        e.target.style.border = '';
         const parent = e.target.parentNode;
-        parent.getElementsByClassName('errorFormField')[0].style.display = 'none';
+        if(parent.getElementsByClassName('errorFormField')[0]){
+            parent.getElementsByClassName('errorFormField')[0].style.display = 'none';
+            e.target.style.border = '';
+        }
     }
 
     getForm2PopUp(){
@@ -167,7 +169,7 @@ class FormPopUpCreate extends Component{
             <div>
                 <div id="formWrapper"> 
                     <h3>Создание товара</h3>
-                    <p>Можно перемещать форму редактирования</p>
+                    <p>Можно перемещать форму создания товара</p>
                     <p style={{ fontSize: '12px' }}>* поля обязательные для заполнения</p>
                     {this.getForm2PopUp()} 
                 </div>

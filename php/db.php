@@ -50,6 +50,15 @@
             $result->bindParam(':description', $description, PDO::PARAM_STR);
             $result->bindParam(':price', $price, PDO::PARAM_STR);
             return $result->execute();
+		}
+		//delete data
+		public static function deleteData($id, $pdo){
+            
+            $sql = 'DELETE FROM goods WHERE id = :id';
+            $result = $pdo->prepare($sql);
+            
+            $result->bindParam(':id', $id, PDO::PARAM_INT);
+            return $result->execute();
         }	
 	}
 ?>

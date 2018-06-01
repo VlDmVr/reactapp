@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import PopUp from './PopUp';
 import CreateGood from './CreateGood';
 import './views.css';
@@ -37,6 +37,18 @@ class Products extends Component{
             }
         }); 
     }
+    //метод клонирования данных для копии основных данных и использовании для восстановления исходных данных(например, при нажатии кнопки отмена в форме редактирования)
+    cloneData(arrData){
+        const copyClone =  arrData.map( (val, ind) => {
+            var intersect = {};
+            for(var key in val){
+                intersect[key] = val[key];
+            }
+            return intersect;
+        });
+
+        return copyClone;
+    }
     //выбрать редактируемую строку, после клика по строке таблицы
     selectUserRow(id){
         if(id){
@@ -62,6 +74,38 @@ class Products extends Component{
         const resaltRow = this.selectUserRow(selectId);
         this.props.selectRow(resaltRow);
     }
+    //метод удаление товара 
+    deleteGood(e){
+        e.stopPropagation();
+        const dataId = e.target.parentNode.parentNode.getAttribute('data-id');
+
+        $.ajax({
+            type : 'POST',
+            url : '/php/deleteGoodHandler.php',
+            data: { 'id': dataId },
+            cache: false,
+            dataType: 'json',
+            success : (data) => {
+
+                if(data){
+                    $.ajax({
+                        type : 'POST',
+                        url : '/php/allSelectHandler.php',
+                        cache: false,
+                        dataType: 'json',
+                        success : (dataUpd) => {
+            
+                            //клонирование массива объектов после загрузки с сервера
+                            const copyClone =  this.cloneData(dataUpd);
+            
+                            this.props.loadAllData(dataUpd);
+                            this.props.cAllData(copyClone);
+                        }
+                    });
+                }
+            }
+        });
+    }
 
     loadContentFromDb(){
         if(this.props.preloadAllData.data){
@@ -71,6 +115,7 @@ class Products extends Component{
                             <td>{value.title}</td>
                             <td>{value.description}</td>
                             <td>{value.price}</td>
+                            <td><Button bsStyle="info" onClick={this.deleteGood.bind(this)}>Удалить</Button></td>
                         </tr> );
             });
             return allData;
@@ -90,6 +135,7 @@ class Products extends Component{
                             <th style={{width: 150}}>Название</th>
                             <th style={{width: 400}}>Описание</th>
                             <th style={{width: 100}}>Цена</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody onClick={this.selectItem.bind(this)}>
