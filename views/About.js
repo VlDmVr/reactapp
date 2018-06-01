@@ -4,7 +4,7 @@ class About extends Component{
     
     render(){
         return(
-            <h2>О проекте</h2>
+            <h2>О приложении</h2>
         );
     }
 }

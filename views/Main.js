@@ -8,7 +8,7 @@ class Main extends Component {
         return (
             <div>
                 <h2>Главная</h2>
-                <div><span className="navLinks">Перейти в раздел <Link to="/about">О проекте</Link></span></div>
+                <div><span className="navLinks">Перейти в раздел <Link to="/about">О приложении</Link></span></div>
                 <div><span className="navLinks">Перейти в раздел <Link to="/products">Товары</Link></span></div>
             </div>
         );

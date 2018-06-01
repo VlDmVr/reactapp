@@ -36,7 +36,7 @@ class Products extends Component{
                 this.props.cAllData(copyClone);
             }
         });
-        
+        //если есть выбранная строка, то показывать PopUp
         if(this.props.selectId.row)
             document.getElementById('popUp').style.display = 'block';
     }
