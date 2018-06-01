@@ -9,6 +9,7 @@ class FormPopUpRedact extends Component {
     constructor(props){
         super(props);
     }
+
     //изменение данных в таблице через связь(ссылки) двух объектов 
     //в хранилище(this.props.selectRow - объекта выбранной строки и this.props.preloadAllData - объекта всех записей товаров на странице)
     onChangeItem(e){

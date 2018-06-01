@@ -35,7 +35,10 @@ class Products extends Component{
                 this.props.loadAllData(data);
                 this.props.cAllData(copyClone);
             }
-        }); 
+        });
+        
+        if(this.props.selectId.row)
+            document.getElementById('popUp').style.display = 'block';
     }
     //метод клонирования данных для копии основных данных и использовании для восстановления исходных данных(например, при нажатии кнопки отмена в форме редактирования)
     cloneData(arrData){
@@ -60,9 +63,9 @@ class Products extends Component{
     }
     //выбор строки в таблице для редактирования
     selectItem(e){
-        //если уже существует выбранная строка, то return
+        //если выбранная строка существует, то return
         if(this.props.selectId.row){
-            return;
+            return
         }
         //если форма уже открыта, то return
         if(document.getElementById('popUp').style.display == "block"){
@@ -76,6 +79,10 @@ class Products extends Component{
     }
     //метод удаление товара 
     deleteGood(e){
+        //если форма редактирования/создания нового товара уже открыта, то удаление не работает
+        if(document.getElementById('popUp').style.display == "block"){
+            return;
+        }
         e.stopPropagation();
         const dataId = e.target.parentNode.parentNode.getAttribute('data-id');
 
