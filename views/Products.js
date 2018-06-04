@@ -36,9 +36,6 @@ class Products extends Component{
                 this.props.cAllData(copyClone);
             }
         });
-        //если есть выбранная строка, то показывать PopUp
-        if(this.props.selectId.row)
-            document.getElementById('popUp').style.display = 'block';
     }
     //метод клонирования данных для копии основных данных и использовании для восстановления исходных данных(например, при нажатии кнопки отмена в форме редактирования)
     cloneData(arrData){
@@ -129,7 +126,7 @@ class Products extends Component{
         }
     }
     
-    render(){
+    render(){        
         return(
             <div>
                 <CreateGood />
