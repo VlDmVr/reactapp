@@ -37,14 +37,14 @@ export default connect(
       }
     ),
     dispatch => ({
-      loadAllData: (allDbData) => {
-        dispatch({ type: 'PRELOAD_ALL_DATA', payload: allDbData});
-      },
-      cAllData: (data) => {
-          dispatch( {type: "COPY_ALL_DATA", payload: data} );
-      },
-      selectRow: (row) => {
-          dispatch({ type: 'SELECT_ID', payload: row });
-      }  
+        loadAllData: (allDbData) => {
+            dispatch({ type: 'PRELOAD_ALL_DATA', payload: allDbData});
+        },
+        cAllData: (data) => {
+            dispatch( {type: "COPY_ALL_DATA", payload: data} );
+        },
+        selectRow: (row) => {
+            dispatch({ type: 'SELECT_ID', payload: row });
+        },  
     })
   )(CreateGood);

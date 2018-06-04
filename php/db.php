@@ -12,6 +12,14 @@
 			$pdo = new PDO($dsn, $username, $passwd);
 			return $pdo;
 		}
+
+		public static function allCountData($pdo){
+			$sql = "SELECT COUNT(*) FROM goods";
+			$result = $pdo->query($sql)->fetchColumn();
+
+			return $result;
+		}
+
 		//create data
 		public static function saveData($title, $description, $price, $pdo){
 			
@@ -24,12 +32,14 @@
 			
 			return $result->execute();
 		}
-		
-		//read all data
-		public static function selectAllData($pdo){
+		//read all data, offset 5
+		public static function selectAllData($start, $end, $pdo){
 			
-			$sql = 'SELECT id, title, description, price FROM goods';
-            $result = $pdo->prepare($sql);
+			$sql = 'SELECT id, title, description, price FROM goods LiMIT :start, :end';
+			$result = $pdo->prepare($sql);
+
+			$result->bindValue(':start', (int) $start, PDO::PARAM_INT);
+			$result->bindValue(':end', (int) $end, PDO::PARAM_INT);
            
             $result->execute();
             

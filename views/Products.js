@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import PopUp from './PopUp';
+import Paginat from './Paginat';
 import CreateGood from './CreateGood';
 import './views.css';
 import $ from 'jquery';
@@ -14,11 +15,13 @@ class Products extends Component{
         super(props);
     }
 
-    componentDidMount(){
+    componentWillMount(){
 
+        //первоначальная загрузка из БД
         $.ajax({
             type : 'POST',
             url : '/php/allSelectHandler.php',
+            data: { 'start': 0, 'end': 5 },
             cache: false,
             dataType: 'json',
             success : (data) => {
@@ -34,6 +37,18 @@ class Products extends Component{
 
                 this.props.loadAllData(data);
                 this.props.cAllData(copyClone);
+            }
+        });
+        
+        //общее количество записей в БД
+        $.ajax({
+            type : 'POST',
+            url : '/php/allCountData.php',
+            cache: false,
+            dataType: 'json',
+            success : (data) => {
+
+                this.props.putCountRows(data);
             }
         });
     }
@@ -126,7 +141,7 @@ class Products extends Component{
         }
     }
     
-    render(){        
+    render(){       
         return(
             <div>
                 <CreateGood />
@@ -146,7 +161,7 @@ class Products extends Component{
                         {this.loadContentFromDb()}
                     </tbody>
                 </Table>
-                
+                <Paginat />
             </div>
         );
     }
@@ -156,7 +171,8 @@ export default connect(
     state => ({
         preloadAllData: state.preloadAllData,
         selectId: state.selectId,
-        copyData: state.copyAllData
+        copyData: state.copyAllData,
+        countRows: state.countRows
       }
     ),
     dispatch => ({
@@ -168,6 +184,9 @@ export default connect(
       },
       selectRow: (row) => {
           dispatch({ type: 'SELECT_ID', payload: row });
+      },
+      putCountRows: (count) => {
+          dispatch({ type: 'COUNT_ROWS', payload: count });
       }  
     })
-  )(Products);
+)(Products);

@@ -114,6 +114,9 @@ class FormPopUpCreate extends Component{
                         }
                     }
                 });
+
+                //обновление общего количества строк в состояние 
+                this.props.putCountRows(this.props.countRows.cntRows + 1);
                 
                 //обнуление данных в форме
                 this.makeEmptyValue();
@@ -184,7 +187,9 @@ export default connect(
     state => ({
         selectRow: state.selectId,
         preloadAllData: state.preloadAllData,
-        copyAllData: state.copyAllData
+        copyAllData: state.copyAllData,
+        countRows: state.countRows
+
     }),
     dispatch => ({ 
         replaceAllData: (allData) => {
@@ -195,6 +200,9 @@ export default connect(
         },
         setData2Row: (row) => {
             dispatch({ type: 'SELECT_ID', payload: row });
+        },
+        putCountRows: (count) => {
+            dispatch({ type: 'COUNT_ROWS', payload: count });
         }
     })
 )
