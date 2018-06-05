@@ -2,11 +2,11 @@
 
     include './db.php';
 
-    $start = $_POST['start'];
-    $end = $_POST['end'];
+    $limit = $_POST['limit'];
+    $offset = $_POST['offset'];
 
     
     $pdo = Db::connect();
-    $allData = Db::selectAllData($start, $end, $pdo);
+    $allData = Db::selectAllData($limit, $offset, $pdo);
     
     echo json_encode($allData);

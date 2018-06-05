@@ -65,7 +65,7 @@ class FormPopUpCreate extends Component{
             const title = inputsCollect[0].value;
             const price = inputsCollect[1].value;
             const description = texareaCollect[0].value;
-
+            //валидация на не введенные данные полей: "Название" и "Описание"
             if(!title){
                 const errorTitle = form.getElementsByClassName('errorFormField')[0];
                 errorTitle.style.display = 'block';
@@ -100,6 +100,7 @@ class FormPopUpCreate extends Component{
                             $.ajax({
                                 type : 'POST',
                                 url : '/php/allSelectHandler.php',
+                                data: { 'limit': this.props.paramsSelectedGoodsList.params.limit, 'offset': this.props.paramsSelectedGoodsList.params.offset },
                                 cache: false,
                                 dataType: 'json',
                                 success : (dataUpd) => {
@@ -188,8 +189,8 @@ export default connect(
         selectRow: state.selectId,
         preloadAllData: state.preloadAllData,
         copyAllData: state.copyAllData,
-        countRows: state.countRows
-
+        countRows: state.countRows,
+        paramsSelectedGoodsList: state.paramsSelectedGoodsList
     }),
     dispatch => ({ 
         replaceAllData: (allData) => {
@@ -203,6 +204,9 @@ export default connect(
         },
         putCountRows: (count) => {
             dispatch({ type: 'COUNT_ROWS', payload: count });
+        },
+        putParamsSelected: (params) => {
+            dispatch({ type: "PARAMS_SELECTED_GOODS_LIST", payload: params });
         }
     })
 )

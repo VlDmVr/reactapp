@@ -33,13 +33,13 @@
 			return $result->execute();
 		}
 		//read all data, offset 5
-		public static function selectAllData($start, $end, $pdo){
+		public static function selectAllData($limit, $offset, $pdo){
 			
-			$sql = 'SELECT id, title, description, price FROM goods LiMIT :start, :end';
+			$sql = 'SELECT id, title, description, price FROM goods LiMIT :limit OFFSET :offset';
 			$result = $pdo->prepare($sql);
 
-			$result->bindValue(':start', (int) $start, PDO::PARAM_INT);
-			$result->bindValue(':end', (int) $end, PDO::PARAM_INT);
+			$result->bindValue(':limit', (int) $limit, PDO::PARAM_INT);
+			$result->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
            
             $result->execute();
             

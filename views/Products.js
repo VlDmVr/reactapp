@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'react-bootstrap';
+import { Table } from 'react-bootstrap';
 import PopUp from './PopUp';
 import Paginat from './Paginat';
 import CreateGood from './CreateGood';
+import DeleteGood from './DeleteGood';
 import './views.css';
 import $ from 'jquery';
 import { relative, isAbsolute } from 'path';
@@ -16,11 +17,26 @@ class Products extends Component{
     }
 
     componentWillMount(){
+        //если данные уже существуют, то загружать ничего не надо
+        if(this.props.preloadAllData.data && this.props.selectId.row){
+            return;
+        }
+        //загрузка параметров при которых будет показан выбранный список товаров
+        let limit = '';
+        let offset = '';
+        if(this.props.paramsSelectedGoodsList.params){
+            limit = this.props.paramsSelectedGoodsList.params.limit;
+            offset = this.props.paramsSelectedGoodsList.params.offset;
+        }else{
+            limit = 5;
+            offset = 0;
+            this.props.putParamsSelected({ limit: limit, offset: offset });
+        }
         //первоначальная загрузка из БД
         $.ajax({
             type : 'POST',
             url : '/php/allSelectHandler.php',
-            data: { 'start': 0, 'end': 5 },
+            data: { 'limit': limit, 'offset': offset },
             cache: false,
             dataType: 'json',
             success : (data) => {
@@ -88,59 +104,23 @@ class Products extends Component{
         const resaltRow = this.selectUserRow(selectId);
         this.props.selectRow(resaltRow);
     }
-    //метод удаление товара 
-    deleteGood(e){
-        //если форма редактирования/создания нового товара уже открыта, то удаление не работает
-        if(document.getElementById('popUp').style.display == "block"){
-            return;
-        }
-        e.stopPropagation();
-        const dataId = e.target.parentNode.parentNode.getAttribute('data-id');
-
-        $.ajax({
-            type : 'POST',
-            url : '/php/deleteGoodHandler.php',
-            data: { 'id': dataId },
-            cache: false,
-            dataType: 'json',
-            success : (data) => {
-
-                if(data){
-                    $.ajax({
-                        type : 'POST',
-                        url : '/php/allSelectHandler.php',
-                        cache: false,
-                        dataType: 'json',
-                        success : (dataUpd) => {
-            
-                            //клонирование массива объектов после загрузки с сервера
-                            const copyClone =  this.cloneData(dataUpd);
-            
-                            this.props.loadAllData(dataUpd);
-                            this.props.cAllData(copyClone);
-                        }
-                    });
-                }
-            }
-        });
-    }
 
     loadContentFromDb(){
         if(this.props.preloadAllData.data){
             const allData = this.props.preloadAllData.data.map((value, index) => {
                 return( <tr key={index} data-id={value.id}>
-                            <td>{index + 1}</td>
+                            <td>{value.id}</td>
                             <td>{value.title}</td>
                             <td>{value.description}</td>
                             <td>{value.price}</td>
-                            <td><Button bsStyle="info" onClick={this.deleteGood.bind(this)}>Удалить</Button></td>
+                            <td><DeleteGood /></td>
                         </tr> );
             });
             return allData;
         }
     }
     
-    render(){      
+    render(){  
         return(
             <div>
                 <CreateGood />
@@ -149,7 +129,7 @@ class Products extends Component{
                 <Table striped bordered condensed hover className="productsTable">
                     <thead>
                         <tr>
-                            <th style={{width: 50}}>#</th>
+                            <th style={{width: 50}}>id</th>
                             <th style={{width: 150}}>Название</th>
                             <th style={{width: 400}}>Описание</th>
                             <th style={{width: 100}}>Цена</th>
@@ -171,7 +151,8 @@ export default connect(
         preloadAllData: state.preloadAllData,
         selectId: state.selectId,
         copyData: state.copyAllData,
-        countRows: state.countRows
+        countRows: state.countRows,
+        paramsSelectedGoodsList: state.paramsSelectedGoodsList
       }
     ),
     dispatch => ({
@@ -186,6 +167,9 @@ export default connect(
       },
       putCountRows: (count) => {
           dispatch({ type: 'COUNT_ROWS', payload: count });
-      }  
+      },
+      putParamsSelected: (params) => {
+          dispatch({ type: "PARAMS_SELECTED_GOODS_LIST", payload: params });
+      } 
     })
 )(Products);

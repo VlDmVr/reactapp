@@ -62,6 +62,7 @@ class FormPopUpRedact extends Component {
                         $.ajax({
                             type : 'POST',
                             url : '/php/allSelectHandler.php',
+                            data: { 'limit': this.props.paramsSelectedGoodsList.params.limit, 'offset': this.props.paramsSelectedGoodsList.params.offset },
                             cache: false,
                             dataType: 'json',
                             success : (dataUpd) => {
@@ -149,7 +150,8 @@ export default connect(
     state => ({
         selectRow: state.selectId,
         preloadAllData: state.preloadAllData,
-        copyAllData: state.copyAllData
+        copyAllData: state.copyAllData,
+        paramsSelectedGoodsList: state.paramsSelectedGoodsList
     }),
     dispatch => ({ 
         replaceAllData: (allData) => {
@@ -160,6 +162,9 @@ export default connect(
         },
         setData2Row: (row) => {
             dispatch({ type: 'SELECT_ID', payload: row });
+        },
+        putParamsSelected: (params) => {
+            dispatch({ type: "PARAMS_SELECTED_GOODS_LIST", payload: params });
         }
     })
 )
