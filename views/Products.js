@@ -16,7 +16,6 @@ class Products extends Component{
     }
 
     componentWillMount(){
-
         //первоначальная загрузка из БД
         $.ajax({
             type : 'POST',
@@ -141,7 +140,7 @@ class Products extends Component{
         }
     }
     
-    render(){       
+    render(){      
         return(
             <div>
                 <CreateGood />

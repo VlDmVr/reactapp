@@ -15,6 +15,12 @@ class PopUp extends Component{
         };
     }
 
+    componentDidMount(){
+        if(this.props.selectId.row){
+            document.getElementById('popUp').style.display = 'block';
+        }
+    }
+
     userDragPopUp(e){
         this.setState({
                     leftPopUpCoordinates: e.pageX,

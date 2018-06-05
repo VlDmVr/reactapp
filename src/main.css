@@ -2,3 +2,6 @@
     color: gray;
     cursor: pointer;
 }
+#mainWrapper{
+    margin-left: 15px;
+}

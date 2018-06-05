@@ -9,9 +9,11 @@ import Routers from './resourses/Routers';
 const store = createStore(allReducers);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <Routers />
-    </ Provider>, 
+    <div id="mainWrapper">
+        <Provider store={store}>
+            <Routers />
+        </ Provider>
+    </div>, 
     document.getElementById('app')
 );
 
