@@ -47,16 +47,23 @@ class Paginat extends Component{
     }
     //создание нумерованных кнопок пагинации
     createPagination(){
+        //механизм сделать кнопку активной
+        const selectParam = this.props.paramsSelectedGoodsList.params.offset/this.props.paramsSelectedGoodsList.params.limit;
+        
         const pagItems = Math.ceil(this.props.countRows.cntRows/5);
         let arr = [];
           
         for(let i=0; i<pagItems; i++){
-            arr[i] = <Pagination.Item index={i} key={i} onClick={this.selectPaginItem.bind(this)}>{i+1}</Pagination.Item>;
+            arr[i] = <Pagination.Item index={i} key={i} active={selectParam === i} onClick={this.selectPaginItem.bind(this)}>{i+1}</Pagination.Item>;
         }
         return arr;
     }
     //создание не нумерованных кнопок навигации
     catchClick(e){
+        //индекс элемента по которому произошел click
+        const index = this.props.paramsSelectedGoodsList.params.offset/this.props.paramsSelectedGoodsList.params.limit;
+        //число кнопок
+        const pagItems = Math.ceil(this.props.countRows.cntRows/5);
         //кнопка First
         if(e.target.parentNode.getAttribute('data-item') == "paginationFirst"){
             this.selectPaginItem(e, 0);
@@ -64,6 +71,20 @@ class Paginat extends Component{
         //кнопка Last
         if(e.target.parentNode.getAttribute('data-item') == "paginationLast"){
             this.selectPaginItem(e, this.createPagination().length - 1);
+        }
+        //кнопка Prev
+        if(e.target.parentNode.getAttribute('data-item') == "paginationPrev"){
+            if(this.props.paramsSelectedGoodsList.params.offset == 0){
+                return;
+            }
+            this.selectPaginItem(e, index-1);
+        }
+        //кнопка Next
+        if(e.target.parentNode.getAttribute('data-item') == "paginationNext"){
+            if(pagItems == (index+1)){
+                return;
+            }
+            this.selectPaginItem(e, index+1);
         }
     }
 

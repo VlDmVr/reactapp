@@ -57,8 +57,7 @@ class DeleteGood extends Component{
                                 const paramsObj = this.props.paramsSelectedGoodsList.params;
                                 this.props.paramsSelectedGoodsList.params.offset = this.props.paramsSelectedGoodsList.params.offset - 5;
                                 this.props.countRows.cntRows = this.props.countRows.cntRows - 1;
-                                this.props.putCountRows(this.props.countRows.cntRows);
-                                console.log(this.props.countRows.cntRows);
+                                //this.props.putCountRows(this.props.countRows.cntRows);
                                 $.ajax({
                                     type : 'POST',
                                     url : '/php/allSelectHandler.php',
@@ -66,12 +65,12 @@ class DeleteGood extends Component{
                                     cache: false,
                                     dataType: 'json',
                                     success : (dataUpdNew) => {
-                        
                                         //клонирование массива объектов после загрузки с сервера
                                         const copyClone =  this.cloneData(dataUpdNew);
                         
                                         this.props.loadAllData(dataUpdNew);
-                                        this.props.cAllData(copyClone);
+                                        //добавление копии данных в объект с копией данных, без лишнего рендеринга компонента
+                                        this.props.copyData.dataCopy = copyClone;
                                     }
                                 });
                             }
@@ -84,9 +83,7 @@ class DeleteGood extends Component{
 
     render(){
         return(
-            
             <Button bsStyle="info" onClick={this.deleteGood.bind(this)}>Удалить</Button>
-            
         );
     }
 
