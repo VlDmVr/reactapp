@@ -51,13 +51,12 @@ class DeleteGood extends Component{
                                 //клонирование массива объектов после загрузки с сервера
                                 const copyClone =  this.cloneData(dataUpd);
                 
+                                this.props.putCountRows(this.props.countRows.cntRows - 1);
                                 this.props.loadAllData(dataUpd);
                                 this.props.cAllData(copyClone);
                             }else{
-                                const paramsObj = this.props.paramsSelectedGoodsList.params;
-                                this.props.paramsSelectedGoodsList.params.offset = this.props.paramsSelectedGoodsList.params.offset - 5;
-                                this.props.countRows.cntRows = this.props.countRows.cntRows - 1;
-                                //this.props.putCountRows(this.props.countRows.cntRows);
+                                this.props.putParamsSelected({limit: this.props.paramsSelectedGoodsList.params.limit, offset: this.props.paramsSelectedGoodsList.params.offset - 5});
+                                this.props.putCountRows(this.props.countRows.cntRows - 1);
                                 $.ajax({
                                     type : 'POST',
                                     url : '/php/allSelectHandler.php',
@@ -69,8 +68,7 @@ class DeleteGood extends Component{
                                         const copyClone =  this.cloneData(dataUpdNew);
                         
                                         this.props.loadAllData(dataUpdNew);
-                                        //добавление копии данных в объект с копией данных, без лишнего рендеринга компонента
-                                        this.props.copyData.dataCopy = copyClone;
+                                        this.props.cAllData(copyClone);
                                     }
                                 });
                             }

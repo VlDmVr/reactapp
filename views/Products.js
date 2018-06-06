@@ -22,21 +22,20 @@ class Products extends Component{
             return;
         }
         //загрузка параметров при которых будет показан выбранный список товаров
-        let limit = '';
-        let offset = '';
+        const params = {};
         if(this.props.paramsSelectedGoodsList.params){
-            limit = this.props.paramsSelectedGoodsList.params.limit;
-            offset = this.props.paramsSelectedGoodsList.params.offset;
+            params.limit = this.props.paramsSelectedGoodsList.params.limit;
+            params.offset = this.props.paramsSelectedGoodsList.params.offset;
         }else{
-            limit = 5;
-            offset = 0;
-            this.props.putParamsSelected({ limit: limit, offset: offset });
+            params.limit = 5;
+            params.offset = 0;
+            this.props.putParamsSelected(params);
         }
         //первоначальная загрузка из БД
         $.ajax({
             type : 'POST',
             url : '/php/allSelectHandler.php',
-            data: { 'limit': limit, 'offset': offset },
+            data: { 'limit': params.limit, 'offset': params.offset },
             cache: false,
             dataType: 'json',
             success : (data) => {
@@ -50,8 +49,8 @@ class Products extends Component{
                     return intersect;
                 });
 
-                this.props.loadAllData(data);
-                this.props.cAllData(copyClone);
+               this.props.loadAllData(data);
+               this.props.cAllData(copyClone);
             }
         });
         
@@ -120,7 +119,7 @@ class Products extends Component{
         }
     }
     
-    render(){  
+    render(){
         return(
             <div>
                 <CreateGood />

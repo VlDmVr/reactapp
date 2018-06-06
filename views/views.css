@@ -14,7 +14,7 @@ h2{
     display: inline-block;
 }
 .navLinks a:hover{
-    background-color: rgb(221, 221, 221);
+    background-color: #eee;
 }
 .popUp{
     background: #ddd;
