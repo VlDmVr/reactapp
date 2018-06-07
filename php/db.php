@@ -28,7 +28,7 @@
 			
 			$result->bindParam(':title', $title, PDO::PARAM_STR);
 			$result->bindParam(':description', $description, PDO::PARAM_STR);
-			$result->bindParam(':price', $price, PDO::PARAM_STR);
+			$result->bindParam(':price', $price, PDO::PARAM_INT);
 			
 			return $result->execute();
 		}
@@ -58,7 +58,7 @@
             $result->bindParam(':id', $id, PDO::PARAM_INT);
             $result->bindParam(':title', $title, PDO::PARAM_STR);
             $result->bindParam(':description', $description, PDO::PARAM_STR);
-            $result->bindParam(':price', $price, PDO::PARAM_STR);
+            $result->bindParam(':price', $price, PDO::PARAM_INT);
             return $result->execute();
 		}
 		//delete data
